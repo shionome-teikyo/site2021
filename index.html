@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/common.css" type="text/css">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="js/jquery.bxslider.min.js"></script>
+	<script src="js/scroll.js"></script>
+	<script src="js/header.js"></script>
+	<script src="js/fixedSub.js"></script>
+	<link rel="stylesheet" href="css/jquery.bxslider.css" />
+	<title>塩野目研究室</title>
+	<script>
+		$(document).ready(function () {
+			$('.bxslider').bxSlider({
+				auto: true,
+				speed: 1000,
+				pause: 5000,
+				onSlideBefore: function () {
+					$('.bx-controls-direction a').css('pointer-events', 'none');
+					$('.bx-pager a').css('pointer-events', 'none');
+				},
+				onSlideAfter: function () {
+					$('.bx-pager a').css('pointer-events', 'auto');
+					$('.bx-controls-direction a').css('pointer-events', 'auto');
+					slider.startAuto();
+				}
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div id="page">
+		<header class="header fixed">
+			<div class="headerTitle"><img src="img/logoc.png">
+				<p>塩野目研究室は福祉情報⼯学・アクセシビリティをキーワードにして「人に関わる」研究をしています</p>
+			</div>
+			<div class="headerMenu">
+				<nav>
+					<ul class="clearfix">
+						<a href="index.html">
+							<li><img src="img/home_icon.png" width="20px" height="20px">ホーム</li>
+						</a>
+						<a href="introduction.html">
+							<li><img src="img/member_icon.png" width="20px" height="20px">メンバー紹介</li>
+						</a>
+						<a href="seniorproject.html">
+							<li><img src="img/sotuken_icon.png" width="20px" height="20px">卒業研究</li>
+						</a>
+						<a href="publish.html">
+							<li><img src="img/gyoseki_icon.png" width="20px" height="20px">研究業績リスト</li>
+						</a>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<div class="pageBody">
+			<div class="pageBodyMain" class="article">
+				<div class="article_list">
+					<div class="bxslider">
+						<div class="pageBodyMainImg">
+							<div class="slideVisualText">
+								<h1>熱いディスカッション</h1>
+								<p>3年プロジェクトでは1つのシステムを協力して作り上げます</p>
+							</div>
+							<img src="img/slide01.jpg">
+						</div>
+						<div class="pageBodyMainImg">
+							<div class="slideVisualText">
+								<h1>離れていても心は一つ</h1>
+								<p>ゼミはオンラインと現場のハイブリッドで柔軟に開催しています</p>
+							</div>
+							<img src="img/slide02.jpg">
+						</div>
+						<div class="pageBodyMainImg">
+							<div class="slideVisualText">
+								<h1>社会に知を還元する</h1>
+								<p>研究室で開発したシステムはオープンキャンパスのときに一般公開しています</p>
+							</div>
+							<img src="img/slide03.jpg">
+						</div>
+					</div>
+					<div class="outline">
+						<h2>最新情報</h2>
+						<ul>
+							<li>
+								<time datetime="2021-02-18">2021年2月18日</time>
+								卒業論文が完成しました（予定）．
+							</li>
+							<li>
+								<time datetime="2021-02-05">2021年2月5日</time>
+								4年・佐藤零弥くんが第110回福祉情報工学研究会で発表しました．<br>
+								感動した．
+
+							</li>
+							<li>
+								<time datetime="2021-02-04">2021年2月4日</time>
+								ホームページをリニューアルしました．
+
+							</li>
+							<li>
+								<time datetime="2021-02-03">2021年2月3日</time>
+								卒業研究最終発表会が開催されました．
+
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="pageBodySub">
+				<div class="sideMenu fixedSub">
+					<ul>
+						<a href="teacher.html">
+							<li>教員紹介</li>
+						</a>
+						<a href="laboratory.html">
+							<li>研究室の様子</li>
+						</a>
+						<a href="link.html">
+							<li>リンク集</li>
+						</a>
+						<a href="https://forms.gle/NMq9j4gzfLt5dWVA7">
+							<li>お問い合わせ</li>
+						</a>
+						<a href="recruit.html">
+							<li>配属希望の方へ</li>
+						</a>
+					</ul>
+				</div>
+				<p class="pagetop" id="topbutton">
+					<a href="#top">▲TOPへ</a>
+				</p>
+			</div>
+			<footer class="copyright">
+				<p>&copy;Shionome Lab. Teikyo University</p>
+			</footer>
+		</div>
+	</div>
+</body>
+
+</html>

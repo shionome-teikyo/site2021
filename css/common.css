@@ -1,0 +1,362 @@
+@import url("normalize.css");
+
+html{
+	//background-color : #f5f5f5;
+}
+body{
+	color: #222;
+	//margin :-25px 0px 0px 0px;
+	//background-color : #f5f5f5;
+}
+
+#page{
+	width : 960px;
+	//height : 1080px;
+	margin: 0 auto 0 auto;
+	background-color : #ffffc6; 
+}
+.header{
+	background-color : #ffffc6;
+	margin : 0;
+	padding :0;
+	width: 100%;
+	z-index: 2;
+    //position: fixed;
+    //top:0px;
+}
+.fixed {
+	position: fixed;
+	top: 0;
+	z-index: 10000;
+	width: 960px;
+	margin : 0px;
+	border-bottom:70px #000;
+	background-color: #ffffc6;
+  }
+.fixedSub {
+	position: fixed;
+	top: 180px;
+	z-index: 2;
+	width: 210px;
+	margin-top : 20px;
+	//margin-right: 100px;
+	//margin : 0px;
+  }
+.header .headerTitle{
+	padding-top : 10px;
+	background-color : #ffffc6;
+	margin-bottom: 0;
+}
+.header p {
+	margin-top:0;
+}
+.header ul{
+	list-style: none;
+	margin :0px;
+	padding : 0px;
+	width: 960px;
+}
+.header ul li{
+	font-weight:bold;
+	text-decoration:none;
+	font-family:Arial;
+	box-shadow:inset #ffffff 0px 1px 4px -1px,#789445 0px 2px 0px;
+	-o-box-shadow:inset #ffffff 0px 1px 4px -1px,#789445 0px 2px 0px;
+	-moz-box-shadow:inset #ffffff 0px 1px 4px -1px,#789445 0px 2px 0px;
+	-webkit-box-shadow:inset #ffffff 0px 1px 4px -1px,#789445 0px 2px 0px;
+	background:#bed675;
+	background:-o-linear-gradient(90deg, #bed675, #a6cd58);
+	background:-moz-linear-gradient( center top, #bed675 5%, #a6cd58 100% );
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #bed675), color-stop(1, #a6cd58) );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bed675', endColorstr='#a6cd58');
+	background:-webkit-linear-gradient(#bed675, #a6cd58);
+	background:-ms-linear-gradient(#bed675, #a6cd58);
+	background:linear-gradient(#bed675, #a6cd58);
+	text-indent:0px;
+	line-height:30px;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:0px;
+	text-align:center;
+	vertical-align:middle;
+	display:inline-block;
+	font-size:20px;
+	color:#49631a;
+	width:240px;
+	height:50px;
+	padding:10px;
+	float: left;
+	text-shadow:#faffad 0px 1px 0px;
+	border-color:#94c433;
+	border-width:1px;
+	border-style:solid;
+	box-sizing: border-box;
+	padding-top: 10px;
+}
+
+.header ul li:active {
+	box-shadow:inset #ffffff 0px 1px 4px -1px,#789445 0px 0 0px;
+	-o-box-shadow:inset #ffffff 0px 1px 4px -1px,#789445 0px 0 0px;
+	-moz-box-shadow:inset #ffffff 0px 1px 4px -1px,#789445 0px 0 0px;
+	-webkit-box-shadow:inset #ffffff 0px 1px 4px -1px,#789445 0px 0 0px;
+	position:relative;
+	top:2px
+}
+.header ul li:hover{
+	background:#a6cd58;
+	background:-o-linear-gradient(90deg, #a6cd58, #bed675);
+	background:-moz-linear-gradient( center top, #a6cd58 5%, #bed675 100% );
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #a6cd58), color-stop(1, #bed675) );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a6cd58', endColorstr='#bed675');
+	background:-webkit-linear-gradient(#a6cd58, #bed675);
+	background:-ms-linear-gradient(#a6cd58, #bed675);
+	background:linear-gradient(#a6cd58, #bed675);
+}
+.header a{
+	width:240px;
+	text-decoration: none;
+	text-align : center;
+	color :#000;
+}
+.headerMenu img{
+	padding-right: 10px;
+}
+.pageBody{
+	margin-top : 200px;
+	//margin-bottom : -13px;
+}
+.pageBodyMain{
+	width : 713px;
+    box-sizing: border-box;
+	//border : dotted 1px;
+	//margin-right : 20px;
+	//padding-top : 10px; 
+	//background-color : #ffb6c1;
+	float : left;
+}
+.pageBodyMain .pageBodyMainTitle{
+	font-size : 10px;
+	margin : 0;
+}
+.pageBodyMain .pageBodyMainImg{
+	margin : 0;
+	padding : 0;
+	text-align : center;
+}
+.pageBodyMain .pageBodyMainImg img{
+	//height: 405px;
+    width : 708px;
+    vertical-align:bottom;
+}
+
+.article{
+	margin-left: 20px;
+}
+.article .article_list h1{
+	font-size : 30px;
+	border-left : solid 10px #AD5C00;
+	padding-left : 10px; 
+}
+.article .article_list img{
+	height : 150px;
+	margin-left : 25px;
+}
+.article .article_list h2{
+	font-size : 25px;
+	margin-left : 0;
+	border-left : solid 7px #AD5C00;
+	padding-left : 10px;
+}
+.article .article_list ul {
+	padding-left : 25px;
+	//list-style: none;
+}
+
+.article .article_list p {
+	margin : 18px;
+}
+.article .article_list a {
+	text-decoration : underline;
+	color : #000;
+	margin-right: 24px;
+}
+.article .article_list a:hover{
+	opacity: 0.5;
+}
+.link {
+	text-align : right;
+	margin-right: 20px;
+}
+
+.pageBodySub{
+	width : 210px;
+	padding : 0px;
+	margin: 0px;
+	float : right;
+}
+.sideMenu{
+	//background-color: gray;
+	padding :5px;
+}
+.pageBodySub ul{
+	padding :0px;
+}
+.pageBodySub .sideMenu a{
+	text-decoration: none;
+	text-align : center;
+	font-weight: bold; 
+	color :#000;
+}
+.pageBodySub .sideMenu ul li{
+	display:block;
+    width:200px;
+    height:40px;
+    text-decoration: none;
+    background:#FFF;
+	text-align:center;
+	line-height: 200%;
+    border-left:7px solid #ff7c5c;
+    color:#ff7c5c;
+    font-size:20px;
+    font-weight:bold;
+    box-shadow:0px 2px 2px 0px #dbdbdb;
+    transition: all 1s ease;
+}
+.pageBodySub .sideMenu ul li:hover{
+	background:#fff;
+    color:#FFC000;
+    box-shadow:0px 2px 2px 0px #DEDEDE ;
+}
+.pageBodySub .sideMenu a :first-child{	
+	margin-top : 20px;
+}
+.pageBodySub:after{
+	content: ""; 
+	clear: both; 
+	display: block;
+}
+.pageBody:after{
+	content: ""; 
+	clear: both; 
+	display: block; 
+}
+footer{
+	clear : both;
+	background-color : #ffffc6;
+	padding : 0px;
+	width:960px;
+	height: 64px;
+	margin: 0 auto 0 auto;  
+}
+
+.ocbutton{
+            display: none;
+            cursor: pointer;
+}
+.ocbutton + label{
+            cursor: pointer;
+}
+.ocbutton + label:hover{ /* マウスがボタンの上にある時 */
+            border-bottom:1px dotted #888 ;
+}
+.ocbutton + label:before{ /* 非表示時の文字 ※３*/
+            content:"【+】"
+}
+.ocbutton:checked + label:before{  /* 表示時の文字 ※３ */
+            content:"【-】"
+}
+.oc_content{
+            display: none;
+}
+.oc_content{ /* 表示非表示されるボックスの外観 ※２*/
+            border:1px solid #000;margin:1em;padding:1em;
+}
+#b0:checked ~ #b0_content,
+#b1:checked ~ #b1_content{
+            display:block;
+}
+
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+/* PageTopボタン*/
+#topbutton {
+	/* ▼ボタンの表示位置を画面の右下に固定 */
+	position: fixed; /* ←表示場所を固定 */
+	bottom: 48px;   /* ←下端からの距離 */
+	right: 200px;    /* ←右端からの距離 */
+	width: 5em;     /* ←横幅 */
+
+
+	/* ▼最初は非表示にしておく */
+	display: none;
+
+	/* ▼配色・配置・文字の装飾など */
+	background-color: #AD5C00; /* ←背景色 */
+	opacity: 0.75;        /* ←透明度 */
+	border-radius: 24px;  /* ←角丸の半径 */
+	text-align: center;  /* ←文字の位置 */
+	font-size: 120%;     /* ←文字サイズ */
+	font-weight: bold;   /* ←文字の太さ */
+	margin: 0px;          /* ←外側の余白 */
+	padding: 10px;       /* ←内側の余白 */
+ }
+ #topbutton a {
+	/* ▼リンクの装飾 */
+	color: white;          /* ←文字色 */
+	text-decoration: none; /* ←下線なし */
+ }
+ #topbutton a:hover {
+	/* ▼マウスが載ったときの装飾 */
+	color: yellow;              /* ←文字色 */
+	text-decoration: underline; /* ←下線あり */
+ }
+
+/* Animation */
+nav li {
+    background-image: url("../img/gradbar.png");
+    background-position-x: -480px;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    animation-name: menuslideback;
+    animation-duration : 0.3s;
+    animation-fill-mode: forwards;
+}
+@keyframes menuslideback {
+    0% { background-position-x: -200px; }
+    100% { background-position-x : -450px; }
+}
+@keyframes menuslide {
+    0% { background-position-x: -450px; }
+    100% { background-position-x : -180px; }
+}
+
+nav li:hover{
+    animation-name : menuslide;
+    animation-duration : 0.2s;
+    animation-iteration-count: unset;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+nav li.current{
+    animation-name : menuslide;
+    animation-duration : 0.2s;
+    animation-iteration-count: unset;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.slideVisualText {
+	position: absolute;
+	left: 50px;
+	bottom: 50px;
+	color: #FFF;
+	background-color: rgba(0,0,0,0.4);
+	width: 400px;
+	padding: 15px 25px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}

@@ -1,0 +1,34 @@
+html, body{
+	overflow: hidden;
+}
+body {
+	color: #EEEEEE;
+	background-color: #111111;
+	margin:0;
+	text-align: center;
+}
+h1 {
+	font-size: 24px;
+}
+#screen {
+	margin: 0 auto 0 auto;
+	width:100%;
+	max-width: 768px;
+	height:100vw;
+	max-height: 768px;
+	border: 1px dotted #EEEEEE;
+}
+#map {
+	width:100%;
+	height:100%;
+}
+table, td{
+	border:1px dotted #EEEEEE;
+	border-collapse: collapse;
+}
+
+@media screen and (max-width: 500px) {
+h1, p {
+	font-size: 85%;
+}
+}

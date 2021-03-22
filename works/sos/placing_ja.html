@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>Static Organization Simulator | 実験室 | 塩野目研究室</title>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<script src="js/jquery.ui.touch-punch.min.js"></script>
+	<style>
+		#organization {
+			width : 500px;
+			height : 500px;
+			border : 2px dotted #333333;
+		}
+		#quitbox {
+			border : 2px dotted #333333;
+			padding: 2px 16px;
+			text-align: right;
+		}
+		.person {
+			width : 20px;
+			height : 20px;
+			text-align : center;
+			position : absolute;
+			border : 2px solid #333333;
+			border-radius: 16px;
+			background-color: #EEEEEE;
+		}
+		p {
+			margin : 5px;
+		}
+	</style>
+</head>
+<body>
+<div id="organization">
+	<canvas id="myCanvas" width="500" height="500"></canvas>
+</div>
+<form name="statusBox" action="request.php" method="post">
+	<p>
+		<input id="datasend" type="button" value="データ送信">
+		<input id="dataread" type="button" value="データ読込">
+		<input id="lineradio" type="checkbox"><small>線の描画</small>&nbsp;
+		<input id="arrowradio" type="checkbox"><small>矢印の描画</small>
+		<input id="distradio" type="checkbox"><small>平均距離</small>
+		<!-- span id="quitbox" width="30" height="30">QuitBox</span -->
+	</p>
+	<textarea cols="80" rows="6" name="statusText" style="overflow:scroll !important;"></textarea>
+</form>
+
+<script>
+var n = 0;
+var dragflg = 0;
+var world = {organizations:[], persons:[]};
+var organization = {persons:[]};
+
+
+// arrow library
+(function(target) {
+  if (!target || !target.prototype)
+	return;
+  target.prototype.arrow = function(startX, startY, endX, endY, controlPoints) {
+	var dx = endX - startX;
+	var dy = endY - startY;
+	var len = Math.sqrt(dx * dx + dy * dy);
+	var sin = dy / len;
+	var cos = dx / len;
+	var a = [];
+	a.push(0, 0);
+	for (var i = 0; i < controlPoints.length; i += 2) {
+	  var x = controlPoints[i];
+	  var y = controlPoints[i + 1];
+	  a.push(x < 0 ? len + x : x, y);
+	}
+	a.push(len, 0);
+	for (var i = controlPoints.length; i > 0; i -= 2) {
+	  var x = controlPoints[i - 2];
+	  var y = controlPoints[i - 1];
+	  a.push(x < 0 ? len + x : x, -y);
+	}
+	a.push(0, 0);
+	for (var i = 0; i < a.length; i += 2) {
+	  var x = a[i] * cos - a[i + 1] * sin + startX;
+	  var y = a[i] * sin + a[i + 1] * cos + startY;
+	  if (i === 0) this.moveTo(x, y);
+	  else this.lineTo(x, y);
+	}
+  };
+  })(CanvasRenderingContext2D);
+//
+
+$(function(){
+	// scroll disable function
+	function no_scroll(){
+		//PC用
+		var scroll_event = 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll';
+		$(document).on(scroll_event,function(e){e.preventDefault();});
+		//SP用
+		$(document).on('touchmove.noScroll', function(e) {e.preventDefault();});
+	}
+	// scroll enable function
+	function return_scroll(){
+		//PC用
+		var scroll_event = 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll';
+		$(document).off(scroll_event);
+		//SP用
+		$(document).off('.noScroll');
+	}
+	no_scroll();
+	var url = "request.php"; //placingdata.php";
+	var px = [];
+	var py = [];
+	var pc = [];
+	// private UUIDの生成 (RFC4122準拠)
+	var uuid = "", i, random;
+	for (i = 0; i < 32; i++) {
+		random = Math.random() * 16 | 0;
+		if (i == 8 || i == 12 || i == 16 || i == 20) {
+			uuid += "-";
+		}
+		uuid += (i == 12 ? 4 : (i == 16 ? (random & 3 | 8) : random)).toString(16);
+	};
+	console.log(uuid);
+	// data read
+	$('#dataread').click(function(){
+		console.log("Data read from local storage.");
+		world = JSON.parse(localStorage.getItem("datalist"));
+		console.log(world);
+	});
+	// data send
+	$('#datasend').click(function(){
+		console.log("Data srore to local storage.")
+		console.log(world);
+		localStorage.setItem("datalist", JSON.stringify(world));
+		var jsonid = JSON.stringify(uuid);
+		var jsonpx = JSON.stringify(px);
+		var jsonpy = JSON.stringify(py);
+		var jsonpc = JSON.stringify(pc);
+		console.log(jsonid);
+		console.log(jsonpx);
+		console.log(jsonpy);
+		console.log(jsonpc);
+		$.ajax({
+			type: 'post',
+			url: url,
+			data: {
+				id : jsonid,
+				px : jsonpx,
+				py : jsonpy,
+				pc : jsonpc
+			},
+			//			contentType: 'application/JSON',
+			//			dataType: 'JSON',
+			scriptCharset: 'utf-8',
+			success : function(data) {
+				alert("success");
+				// alert(JSON.stringify(data));
+				console.log(data);
+			},
+			error : function(data) {
+				alert("error");
+				// alert(JSON.stringify(data));
+				console.log(data);
+			}
+		});
+	});
+	
+	var touched = false;
+	var touch_time = 0;
+	// long tap
+	$('div.person').on({
+		'touchstart mousedown': function(e) {
+			touched = true;
+			touch_time = 0;
+			alert("long tap");
+			document.interval = setInterval(function(){
+				touch_time += 100;
+				if (touch_time == 1000) {
+					console.log("long tap")
+				// ロングタップ(タップから約1秒)時の処理
+				}
+		}, 100)
+		e.preventDefault();
+		},
+		'touchend mouseup mouseout': function(e) { // マウスが領域外に出たかどうかも拾うと、より自然
+			if (touched) {
+				if (touch_time < 1000 ) {
+					console.log("short tap");
+				// 短いタップでの処理
+				}
+			}
+			touched = false;
+			clearInterval(document.interval);
+			e.preventDefault();
+		}
+	});
+	
+	$('#organization').click(function(e) {
+		var x = e.offsetX+"px";
+		var y = e.offsetY+"px";
+		var pid = "#sub"+n
+		pc[n] = 0;
+		// don't click mean distance
+		if (e.target.className[0] == 'm'){
+			return;
+		}
+		// append person
+		if (e.target.className[0] != 'p') {
+			$('#organization').append($('<div id="sub'+n+'" class="person" draggable="true"></div>'));
+			$('div.person:last-child').css({
+				'left':x,
+				'top':y
+			});
+			world.persons.push("p");
+			// add label number
+			$(pid).html(n+1).css('font-size','14px');
+			console.log(n+1, e.offsetX, e.offsetY);
+			n++;
+			$(pid).draggable({
+				containment: 'parent',
+				start : function (event , ui){
+					// console.log("start event start" );
+					// console.log(event , ui);
+					dragflg = 1;
+				} ,
+				drag : function (event , ui) {
+					// console.log("drag event start" );
+					// console.log(event , ui);
+					calcStat();
+				} ,
+				stop : function (event , ui){
+					// console.log("stop event start" );
+					console.log(event , ui);
+					dragflg = 0;
+					if  (ui.position.top>480 && ui.position.left>480) {
+						console.log(event.target.id);
+						quitPerson(event.target.id);
+					}
+				}
+			});
+		} else {
+			var p_index = parseInt(e.target.innerText) - 1;
+			console.log("person clicked",p_index);
+			//console.log(e.target,e.target.innerText,pc[e.target.innerText - 1]);
+			pc[p_index]++;
+			if (pc[p_index] > 1) {
+				pc[p_index] = -1;
+			}
+			if (pc[p_index] == -1) {
+				// negative
+				e.target.style.borderWidth = "2px";
+				e.target.style.borderRadius = "1px";
+				e.target.style.borderStyle = "solid";
+			} else if (pc[p_index] == 0) {
+				// average
+				e.target.style.borderWidth = "2px";
+				e.target.style.borderRadius = "16px";
+				e.target.style.borderStyle = "solid";
+			} else if (pc[p_index] == 1) {
+				// positive
+				e.target.style.borderWidth = "4px";
+				e.target.style.borderRadius = "16px";
+				e.target.style.borderStyle = "double";
+			}
+		}
+		calcStat();
+		// end of append person
+	});
+	$('.person').click(function(e){
+	});
+	// }
+	$('input').click(function(e) {
+		calcStat();
+	});
+	// Quit person
+	function quitPerson(pid) {
+		console.log("Quit person.");
+		$("div #"+pid).remove();
+		n--;
+	};
+	// outer function
+	var sum = function(arr, fn) {
+		if (fn) {
+			return sum(arr.map(fn));
+		}
+		else {
+			return arr.reduce(function(prev, current, i, arr) {
+					return prev+current;
+			});
+		}
+	};
+	var average = function(arr, fn) {
+		return sum(arr, fn)/arr.length;
+	};
+	////////////////////////////////////////////////////// calcStat
+	function calcStat() {
+		// console.log("calculate");
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+		ctx.clearRect(0,0,500,500);
+		// initialize dist, distRank
+		var dist = new Array(n);
+		var distRank = new Array(n);
+		for (let y=0; y<n; y++) {	
+			dist[y] = new Array(n).fill(0);
+			distRank[y] = new Array(n).fill(0);
+		}
+		// pool px, py
+		$('.person').each(function(i, elm) {
+			// console.log(i);
+			var off = $(elm).offset();
+			px[i] = off.left;
+			py[i] = off.top;
+		});
+		// calculate distances
+		for (var i=0; i<px.length; i++) {
+			for (var j=0; j<py.length; j++) {
+				dist[i][j] = Math.sqrt(Math.pow(px[j]-px[i],2)+Math.pow(py[j]-py[i],2));
+			}
+		}
+		// rank of distances
+		for (var i=0; i<px.length; i++) {
+			for (var j=0; j<py.length; j++) {
+				for (var k=j+1; k<py.length; k++) {
+					if (dist[i][j] > dist[i][k]) {
+						distRank[i][j] += 1;
+					}
+					if (dist[i][j] < dist[i][k]) {
+						distRank[i][k] += 1;
+					}
+				}
+			}
+		}
+		// vector calculate //////////////
+		var xx = new Array(n).fill(0);
+		var yy = new Array(n).fill(0);
+		var arrowSize = n * 25.0;
+		for (var i=0; i<n; i++) {
+			for (var j=0; j<n; j++) {
+				var dx = Math.cos(Math.atan((py[j]-py[i])/(px[j]-px[i])));
+				var dy = Math.sin(Math.atan((py[j]-py[i])/(px[j]-px[i])));
+				if (i == j) {
+					dx = 0;
+					dy = 0;
+				}
+				if (px[i]<px[j]) {
+					dx = -1.0 * dx;
+					if (py[i]>py[j]) {
+						dy = -1.0 * dy;
+					}
+				} else if (px[i]!=px[j]) {
+					if (py[i]<py[j]) {
+						dy = -1.0 * dy;
+					}
+				}
+				if (py[i]<py[j]) {
+					dy = -1.0 * dy;
+				} else if (px[i]==px[j]) {
+					dy = -1.0 * dy;				
+				}
+				dx = dx * pc[j];
+				dy = dy * pc[j];
+				console.log(j," to " ,i, dx,dy);
+				xx[i] += dx*sendP(n,distRank[j][i]);
+				yy[i] += dy*sendP(n,distRank[j][i]);
+			}
+			if ($('#arrowradio').prop('checked')) {
+				ctx.beginPath();
+				ctx.setLineDash([]);
+				ctx.arrow(px[i],py[i],px[i]-xx[i]*arrowSize, py[i]-yy[i]*arrowSize,[0, 1, -10, 2, -10, 7])
+				ctx.stroke();
+			}
+		}
+		console.log(xx,yy);
+		
+		// search min, max distances
+		/*
+		console.log(px,py);
+		console.log(dist);
+		console.log(distRank);
+		console.log("distRank",distRank[1]);
+		*/
+		var minDist = 750;
+		var maxDist = 0;
+		var friendlyPair = [];
+		var unfriendlyPair = [];
+		for (var i=0; i<px.length; i++) {
+			for (var j=i+1; j<py.length; j++) {
+				if (maxDist < dist[i][j]) {
+					maxDist = dist[i][j];
+					unfriendlyPair[0] = i+1;
+					unfriendlyPair[1] = j+1;
+				}
+				if (minDist > dist[i][j]) {
+					minDist = dist[i][j];
+					friendlyPair[0] = i+1;
+					friendlyPair[1] = j+1;
+				}
+			}
+		}
+		// search min, max distance sum
+		var sumDist = Array(n);
+		sumDist.fill(0);
+		for (var i=0; i<px.length; i++) {
+			for (var j=0; j<py.length; j++) {
+				sumDist[i] += dist[i][j];
+			}
+			sumDist[i] = sumDist[i] / n;
+		}
+		var minIsolated = 99999;
+		var maxIsolated = 0;
+		var isolatedPerson;
+		var solidarizedPerson;
+		for (var i=0; i<px.length; i++) {
+			if (maxIsolated < sumDist[i]) {
+				maxIsolated = sumDist[i];
+				isolatedPerson = i+1;
+			}
+			if (minIsolated > sumDist[i]) {
+				minIsolated = sumDist[i];
+				solidarizedPerson = i+1;
+			}
+		}
+		// console.log(sumDist);
+		// friendly or unfriendly
+		var minText = "最も距離の近い2人: "+friendlyPair[0]+" & "+friendlyPair[1];
+		var maxText = "最も距離の遠い2人: "+unfriendlyPair[0]+" & "+unfriendlyPair[1];
+		$('textarea').val("");
+		var getData = String($('textarea').val());
+		$('textarea').val(getData + minText + "\t\t" + maxText + "\n");
+		// lines between friendly pair and unfriendly pair
+		if ($('#lineradio').prop('checked')) {
+			for (i=0; i<n; i++) {
+				// friendly
+				ctx.beginPath();
+				ctx.setLineDash([]);
+				ctx.moveTo(px[i],py[i]);
+				ctx.lineTo(px[distRank[i].indexOf(1)],py[distRank[i].indexOf(1)]);
+				ctx.closePath();
+				ctx.stroke();
+				// unfriendly
+				ctx.beginPath();
+				ctx.setLineDash([5,10]);
+				ctx.moveTo(px[i],py[i]);
+				ctx.lineTo(px[distRank[i].indexOf(n-1)],py[distRank[i].indexOf(n-1)]);
+				ctx.closePath();
+				ctx.stroke();
+			}
+		}
+		// isolated or soldiered
+		var isoText = "最も孤立している人: " + isolatedPerson;
+		var solText = "最も密集している人: " + solidarizedPerson;
+		var getData = String($('textarea').val());
+		$('textarea').val(getData + isoText+ "\t\t\t" + solText + "\n");
+		var firstText = "1と2との距離: " + Math.round(dist[0][1]);
+		var lastText = "1とnとの距離: " + Math.round(dist[0][px.length-1]);
+		var getData = String($('textarea').val());
+		$('textarea').val(getData + firstText + "\t\t\t\t" + lastText + "\n");
+		var meanDist = Math.round(average(sumDist) * 100) / 100;
+		$('.person').each(function(i, elm) {
+			// console.log(i,elm);
+			$(elm).children().remove();
+			$(elm).append("<div id='"+"md"+i+"' class='meandist'></div>");
+			var elmChild = elm.firstChild;
+			if ($('#distradio').prop('checked')) {
+				$(elm).children('div').html(Math.round(sumDist[i] * 10) / 10);
+			}
+			// console.log(elmChild);
+			if (sumDist[i] > meanDist) {
+				$(elm).css("background-color", "#BBBBBB");
+			} else {
+				$(elm).css("background-color", "#EEEEEE");				
+			}
+		});
+		var meanDist = Math.round(average(sumDist) * 100) / 100;
+		var meanText = "距離の総和の平均値："+ meanDist;
+		var getData = String($('textarea').val());
+		$('textarea').val(getData + meanText);
+		
+	}
+	////////////////////////////////////////////////////// calcStat end
+	// data transfer
+	function dataTrans() {
+		var jsonpx = JSON.stringify(px);
+		var jsonpy = JSON.stringify(py);
+		var jsonpc = JSON.stringify(pc);
+		console.log(jsonpx);
+		console.log(jsonpy);
+		console.log(jsonpc);
+		$.ajax(url)
+		.done(function(data,status,req){
+		})
+		.fail(function(data,status,error){
+		})
+		// data store to localStorage
+	}
+	var sendP = function(n, rank) {
+		return (n+1-rank)/(n*(n+1)/2);
+	}
+});
+</script>
+<div class="container" onclick=""></div>
+</body>
+</html>

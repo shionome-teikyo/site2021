@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/common.css" type="text/css">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="js/scroll.js"></script>
+	<script src="js/header.js"></script>
+	<script src="js/fixedSub.js"></script>
+	<title>実験室 | 塩野目研究室</title>
+</head>
+
+<body>
+	<div id="page">
+		<header class="header fixed">
+			<div class="headerTitle"><img src="img/logoc.png">
+				<p>塩野目研究室は福祉情報⼯学・アクセシビリティをキーワードにして「人に関わる」研究をしています</p>
+			</div>
+			<div class="headerMenu">
+				<nav>
+					<ul class="clearfix">
+						<a href="index.html">
+							<li><img src="img/home_icon.png" width="20px" height="20px">ホーム</li>
+						</a>
+						<a href="introduction.html">
+							<li><img src="img/member_icon.png" width="20px" height="20px">メンバー紹介</li>
+						</a>
+						<a href="seniorproject.html">
+							<li><img src="img/sotuken_icon.png" width="20px" height="20px">卒業研究</li>
+						</a>
+						<a href="publish.html">
+							<li><img src="img/gyoseki_icon.png" width="20px" height="20px">研究業績リスト</li>
+						</a>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		<div class="pageBody">
+			<div class="pageBodyMain">
+				<div id="playground" class="article">
+					<div class="article_list">
+						<h2>実験室</h2>
+						<p>ここでは実験的に作成しているプログラムを紹介します．</p>
+						<section id="tredak">
+							<h2>トレダク on the web</h2>
+							<p>2019年，世界を席巻した音源探索型オーディオゲームがウェブ版になりました．</br>
+								…が，うまくスマホ操作に対応することができず…</p>
+							<a href="works/tredakJS/tredak.html" target="_blank">トレダクを新しいタブで開く</a>
+						</section>
+						<section id="osstatic">
+							<h2>静的組織シミュレータ</h2>
+							<p>人間関係に起因する職場うつ病予防のために，人間関係の変動を可視化するシミュレータを開発しています．</br>
+								こちらターン制で動くわけでなく，ユーザの配置・パラメータ操作によって動きます．</p>
+							<a href="works/sos/placing_ja.html" target="_blank">静的組織シミュレータを新しいタブで開く</a>
+						</section>
+						<section id="osdynamic">
+							<h2>動的組織シミュレータ</h2>
+							<p>人間関係に起因する職場うつ病予防のために，人間関係の変動を可視化するシミュレータを開発しています．</br>
+								毎ターンのメッセージのやり取りに応じて人がじわじわと動きます．</p>
+							<a href="works/dos/simulator-pwd.html" target="_blank">動的組織シミュレータを新しいタブで開く</a>
+						</section>
+						<section id="rakkojs">
+							<h2>ノーラッコ・ノーライフ</h2>
+							<p>ラッコの貝を叩く音が左右から聞こえてきます</p>
+							<a href="works/rakko/rakko.html" target="_blank">ラッコを新しいタブで開く</a>
+						</section>
+						<section>
+							<h2>マンダラート</h2>
+							<p>素早くマス目を埋めることでアイデアの数を増やします．</br>
+								中央のマスにメインテーマを記入してから周囲のマスを埋めていきましょう．</p>
+							<a href="works/mandalart.html" target="_blank">マンダラートを新しいタブで開く</a>
+						</section>
+						<section id="kyaripamyu">
+							<h2>きゃりーぱみゅぱみゅメーカー</h2>
+							<p>4文字の言葉をテキストボックスに入力すると，きゃりーぱみゅぱみゅっぽくします．</p>
+							<input type="text" name="kiripami" />
+							<input type="button" value="ぱみゅる" onclick="kyari()">
+							<script>
+								function kyari() {
+									var kiripami = document.getElementsByName("kiripami")[0].value;
+									var kyari = kiripami.substring(0, 1) + "ゃ" + kiripami.substring(1, 2) + "ー" + kiripami.substring(2, 3) + kiripami.substring(3, 4) + "ゅ" + kiripami.substring(2, 3) + kiripami.substring(3, 4) + "ゅ"
+									document.getElementsByName("kiripami")[0].value = kyari;
+								}
+							</script>
+							<!-- a href="kyari.html" target="_blank">新しいタブで開く</a -->
+						</section>
+						<section>
+							<h2>鳥の写真</h2>
+							<p>特に珍しいものではありませんが，鳥の写真です．ツバメ多め．</p>
+							<a href="works/bird/birds.html" target="_blank">鳥の写真を新しいタブで開く</a>
+						</section>
+					</div>
+				</div>
+			</div>
+			<div class="pageBodySub">
+				<div class="sideMenu fixedSub">
+					<ul>
+						<a href="teacher.html">
+							<li>教員紹介</li>
+						</a>
+						<a href="laboratory.html">
+							<li>研究室の様子</li>
+						</a>
+						<a href="link.html">
+							<li>リンク集</li>
+						</a>
+						<a href="https://forms.gle/NMq9j4gzfLt5dWVA7">
+							<li>お問い合わせ</li>
+						</a>
+						<a href="recruit.html">
+							<li>配属希望の方へ</li>
+						</a>
+					</ul>
+				</div>
+			</div>
+			<p class="pagetop" id="topbutton">
+				<a href="#top">▲TOPへ</a>
+			</p>
+		</div>
+	<footer class="copyright">
+		<p>&copy;Shionome Lab. Teikyo University</p>
+	</footer>
+</div>
+</body>
+
+</html>

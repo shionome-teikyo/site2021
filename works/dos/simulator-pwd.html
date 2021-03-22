@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=“UTF-8”>
+	<title>Organization Simulator | 実験室 | 塩野目研究室</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css" >
+    <link rel="stylesheet" href="./css/bootstrap-theme.min.css" >
+    <link rel="stylesheet" href="./css/simstyle.css" >
+    <script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="./js/jcanvas.min.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/pwd-canvas.js"></script>
+    <script type="text/javascript" src="./js/pwd-organization.js"></script>
+    <script type="text/javascript" src="./js/pwd-person.js"></script>
+    <script type="text/javascript" src="./js/pwd-world.js"></script>
+    <script type="text/javascript" src="./js/pwd-simulator.js"></script>
+  </head>
+  <body>
+    <header>
+      <div align="center">The latest version of "Google Chrome" is required.</div>
+    </header>
+    <div class="container">
+      <!--
+      <section class="top">
+        <div class="row">
+          <div class="col-sm-3 form-group">
+            <label for="person_num">Number</label>
+            <input class="form-control" type="text" id="person_num" name="person_num" placeholder="人数">
+          </div>
+          <div class="col-sm-3 form-group">
+            <label for="turn_num">Turns</label>
+            <input class="form-control" type="number" id="turn_num" name="turn_num" value=100 min=1 step=1>
+          </div>
+          <div class="col-sm-3 form-group">
+            <label for="speed_num">Speed</label>
+            <input class="form-control" type="number" id="speed_num" name="speed_num" value=5 min=1 max=10 step=1 placeholder="1:遅い,10:早い">
+          </div>
+          <div class="col-sm-3">
+            <div class="checkbox">
+              <label><input type="checkbox" id="draw_arrow" name="draw_arrow">矢印の描画</label>
+            </div>
+            <div><input class="btn btn-info form-control" type="button" id="start_button" value="開始"></div>
+          </div>
+        </div>
+      </section>
+      -->
+      
+      <section class="middle">
+        <div class="row">
+          <aside class="col-sm-3 form-group side_menu">
+            <div class="form-group">
+              <label for="person_num">Number of Persons</label>
+              <select class="form-control" id="person_num" name="person_num" value="">
+                <option value="0">Optional(init)</option>
+                <option value="1">1 (init+set)</option>
+                <option value="2">2 (init+set)</option>
+                <option value="3">3 (init+set)</option>
+                <option value="9">9 (init+set)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="turn_num">Turn</label>
+              <input class="form-control" type="number" id="turn_num" name="turn_num" value=100 min=1 step=1>
+            </div>
+            <div class="form-group">
+              <label for="speed_num">Speed (1:slower to 4:faster)</label>
+              <input class="form-control" type="number" id="speed_num" name="speed_num" value=3 min=1 max=4 step=1 placeholder="1:遅い,4:早い">
+            </div>
+            <div class="form-group checkbox">
+              <label><input type="checkbox" id="draw_arrow" name="draw_arrow" checked>Arrow</label>
+            </div>
+            <div class="button_area">
+              <!--<div class="form-group">-->
+              <!--  <input class="btn btn-primary form-control" type="button" id="start_button" value="開始">-->
+              <!--</div>-->
+              <div class="form-group">
+                <input class="btn btn-danger form-control" type="button" id="reset_button" value="All Reset">
+              </div>
+            </div>
+            <div class="person_information_area form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-4 control-label" for="person_name">Name</label>
+                <div class="col-sm-8">
+                  <input class="form-control" type="text" id="person_name" name="person_name" placeholder="名前" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 control-label" for="person_dname">Label</label>
+                <div class="col-sm-8">
+                  <input class="form-control" type="text" id="person_dname" name="person_dname" placeholder="表示名" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 control-label" for="person_organization">Organization</label>
+                <div class="col-sm-8">
+                  <input class="form-control" type="text" id="person_organization" name="person_organization" placeholder="所属組織" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 control-label" for="person_mh">MH</label>
+                <div class="col-sm-8">
+                  <input class="form-control" type="text" id="person_mh" name="person_mh" placeholder="メンタルヘルス" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <label class="col-sm-12 control-label">Coordinate</label>
+                </div>
+                <div class="col-sm-8">
+                  <label class="col-sm-3 control-label" for="person_x">X</label>
+                  <div class="col-sm-9">
+                    <input class="form-control" type="number" id="person_x" name="person_x" placeholder="座標X" step="1" value="">
+                  </div>
+                  <label class="col-sm-3 control-label" for="person_y">Y</label>
+                  <div class="col-sm-9">
+                    <input class="form-control" type="number" id="person_y" name="person_y" placeholder="座標Y" step="1" value="">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <label class="col-sm-12 control-label">Sensitivity</label>
+                </div>
+                <div class="col-sm-8">
+                  <label class="col-sm-3 control-label" for="person_sa">a</label>
+                  <div class="col-sm-9">
+                    <input class="form-control" type="number" id="person_sa" name="person_sa" placeholder="a" step="0.10" value="">
+                  </div>
+                  <label class="col-sm-3 control-label" for="person_sb">b</label>
+                  <div class="col-sm-9">
+                    <input class="form-control" type="number" id="person_sb" name="person_sb" placeholder="b" step="0.10" value="">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-4">
+                  <label class="col-sm-12 control-label">Influence</label>
+                </div>
+                <div class="col-sm-8">
+                  <label class="col-sm-3 control-label" for="person_ia">a</label>
+                  <div class="col-sm-9">
+                    <input class="form-control" type="number" id="person_ia" name="person_ia" placeholder="a" step="0.10" value="">
+                  </div>
+                  <label class="col-sm-3 control-label" for="person_ib">b</label>
+                  <div class="col-sm-9">
+                    <input class="form-control" type="number" id="person_ib" name="person_ib" placeholder="b" step="0.10" value="">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-1">
+                  <input class="hidden" type="hidden" id="selected_person">
+                  <input class="btn btn-warning form-control" type="button" id="person_delete_button" value="Leave">
+                </div>
+              </div>
+            </div>
+          </aside>
+          <div class="col-sm-9 main_contents">
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1 count_area">
+                Passed Turn: <span class="turn_count_number" id="turn_count" style="">0</span>
+                <input class="btn btn-primary" type="button" id="start_button" value="Start" style="margin-right:20px;">
+                Number of Persons: <span class="person_count_number" id="person_count">0</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1" style="position:relative;">
+                <canvas id="main_canvas" width=500 height=500></canvas>
+                <p style="position:absolute; top:5px; left:20px;">progress</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1" style="position:relative;">
+                <canvas id="before_canvas" width=500 height=500></canvas>
+                <p style="position:absolute; top:5px; left:20px;">before</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1" style="position:relative;">
+                <form name="statusBox">
+                <textarea cols="68" rows="25" name="statusText"></textarea>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!--section class="bottom">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <ul class="nav nav-tabs">
+              <li role="presentation" class="active"><a href="#">Rank</a></li>
+              <li role="presentation" class=""><a href="#">Rank of Distance</a></li>
+              <li role="presentation" class=""><a href="#">Mental Health</a></li>
+              <li role="presentation" class=""><a href="#">Message Count</a></li>
+              <li role="presentation" class=""><a href="#">Message Calc</a></li>
+              <li role="presentation" class=""><a href="#">Displacement</a></li>
+            </ul>
+          </div>
+        </div>
+      </section-->
+      
+    </div>
+    <footer>
+      <div align="center">(c)2017 Takeaki Shionome & MoonAid, LTD.</div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+/* Universal */
+
+body {
+  min-width: 750px;
+}
+
+
+/* top */
+
+.top {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid black;
+}
+
+
+/* middle */
+
+.middle {
+  width: 100%;
+  min-width: 500px;
+  min-height: 570px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.side_menu {
+  border-right: 1px solid black;
+  min-height: 525px;
+}
+
+.main_contents {
+  
+}
+
+.count_area {
+  /*text-align: center;*/
+  font-size: 1.2em;
+}
+
+.turn_count_number {
+  font-size: 1.5em;
+  padding-right: 70px;
+}
+
+.person_count_number {
+  font-size: 1.5em;
+}
+
+.button_area {
+  padding-top: 0px;
+  border-bottom: 1px solid black;
+}
+
+.person_information_area {
+  display: none;
+  padding-top: 10px;
+}
+
+.vcenter {
+  padding-top: 0px !important;
+  height: 61px;
+  line-height: 61px;
+}
+
+#start_button {
+  width: 100px;
+  margin-right: 50px;
+  margin-bottom: 10px;
+}
+
+#main_canvas {
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px dotted black;
+  max-width: 500px !important;
+  max-height: 500px !important;
+  min-width: 500px !important;
+  min-height: 500px !important;
+}
+#before_canvas {
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px dotted black;
+  max-width: 500px !important;
+  max-height: 500px !important;
+  min-width: 500px !important;
+  min-height: 500px !important;
+}
+
+
+/* bottom */
+
+.bottom {
+  border-top: 1px solid black;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

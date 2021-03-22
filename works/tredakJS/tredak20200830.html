@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<title>†Treasure in the Dark† on the Web</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="jquery-3.5.1.min.js"></script>
+	<script src="hammer.min.js"></script>
+	<script src="jquery.hammer.js"></script>
+	<script src="tredak.js"></script>
+</head>
+
+<body>
+	<h1>†Treasure in the Dark† on the Web</h1>
+	<p>use cursor(arrow) keys to move character.<br>
+		push "v" to change visible mode.</p>
+	<div id="screen"></div>
+	<audio id="treasureSound" src="twinkle3.mp3"></audio>
+	<script>
+		document.addEventListener('touchmove', function(e) {e.preventDefault();}, {passive: false});		var r_end = 9;  // 行
+		var c_end = 9;  // 列数
+		var footStep = new Audio('footStep.mp3');
+		var wallSound = new Audio('hitWall.mp3');
+		// var treasureSound = new Audio('twinkle3.mp3');
+		var clearSound = new Audio('correctSound.mp3');
+		var treasureSound = document.querySelector('#treasureSound');
+		var soundInitialize = true;
+		var visibleMode = true;
+		//treasureSound.addEventListener('play',() => {
+		//});
+		$(function () {
+			$("#screen").hammer().bind("swiperight", function(){
+				console.log("swipe right by hammer");
+			});
+			createStage();
+			/*
+			var tableJQ = $('<table id="map">');
+			for (var r = 1; r <= r_end; r++) {
+				var trJQ_r = $('<tr></tr>').appendTo(tableJQ);
+				for (var c = 1; c <= c_end; c++) {
+				//	$('<td class=' +r+c+ '>r=' + r + ':c=' + c + '</td>').appendTo(trJQ_r);
+					$('<td class=' +r+c+ '></td>').appendTo(trJQ_r);
+				}
+			}
+			*/
+			var p = new Player();
+			p.dispPlayer();
+			footStep.addEventListener("ended", () => {
+				footStep.currentTime = 0;
+				p.canWalk = true;
+			});
+			treasureSound.addEventListener("ended", () => {
+				treasureSound.currentTime = 0;
+				t.canPlay = true;
+			});
+			var t = new Treasure();
+			if (visibleMode) { t.dispTreasure() };
+
+			/** ②指が触れたか検知 */
+			$("body").on("touchstart", start_check);
+			/** ③指が動いたか検知 */
+			$("body").on("touchmove", move_check);
+			/** ④指が離れたか検知 */
+			$("body").on("touchend", end_check);
+
+	/** 変数宣言 */	var moveY, modeX, posiY, posiX;
+			// ⑤タッチ開始時の処理
+			function start_check(event) {
+				/** 現在の座標取得 */
+				posiY = getY(event);
+				posiX = getX(event);
+
+				/** 移動距離状態を初期化 */
+				moveY = '';
+				moveX = '';
+
+				/** 表示メッセージを初期化 */
+				msgY = '';
+				msgX = '';
+			}
+
+			// ⑥スワイプ中の処理
+			function move_check(event) {
+				if (posiX - getX(event) > 70) // 70px以上移動でスワイプと判断
+				{
+					/** 右→左と判断 */
+					moveX = "left";
+				}
+				else if (posiX - getX(event) < -70)  // 70px以上移動でスワイプと判断
+				{
+					/** 左→右と判断 */
+					moveX = "right";
+				}
+
+				if (posiY - getY(event) > 70) // 70px以上移動でスワイプと判断
+				{
+					/** 下→上と判断 */
+					moveY = "top";
+				}
+				else if (posiY - getY(event) < -70)  // 70px以上移動でスワイプと判断
+				{
+					/** 上→下と判断 */
+					moveY = "bottom";
+				}
+			}
+			// ⑦指が離れた時の処理
+			function end_check(event) {
+				if (soundInitialize) {
+					var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+					let source = audioCtx.createMediaElementSource(treasureSound);
+					panNode = audioCtx.createStereoPanner();
+					source.connect(panNode);
+					panNode.connect(audioCtx.destination);
+					soundInitialize = false;
+				}
+				if (p.canWalk) {
+					p.canWalk = false;
+				} else {
+					return;
+				}
+				//console.log("key pressed", e);
+				p.hidePlayer();
+				if (moveX == "left") {
+					console.log("walk left");
+					if (p.x > 1) {
+						p.x--;
+						// play footstep from center
+						footStep.play();
+					} else {
+						console.log("hit wall");
+						wallSound.play();
+						p.x = 1;
+						p.canWalk = true;
+					}
+				}
+				else if (moveX == "right") {
+					console.log("walk right");
+					if (p.x < c_end) {
+						p.x++;
+						// play footstep from center
+						footStep.play();
+					} else {
+						console.log("hit wall");
+						wallSound.play();
+						p.x = c_end;
+						p.canWalk = true;
+					}
+				}
+				else {
+					msgX = "移動なし";
+				}
+
+				if (moveY == "top") {
+					console.log("walk up");
+					if (p.y > 1) {
+						p.y--;
+						// play footstep from center
+						footStep.play();
+					} else {
+						console.log("hit wall");
+						wallSound.play();
+						p.y = 1;
+						p.canWalk = true;
+					}
+				}
+				else if (moveY == "bottom") {
+					console.log("walk down");
+					if (p.y < r_end) {
+						p.y++;
+						// play footstep from center
+						footStep.play();
+					} else {
+						console.log("hit wall");
+						wallSound.play();
+						p.y = r_end;
+						p.canWalk = true;
+					}
+				}
+				else {
+					msgY = "移動なし";
+				}
+				console.log("（横移動）" + msgX + ":" + "（縦移動）" + msgY);
+				if (visibleMode) { p.dispPlayer() };
+				// change the panning of treasure sound
+				var panx = (t.x - p.x) / c_end;
+				panNode.pan.value = panx;
+				console.log(panNode.pan.value);
+				// calculate distance
+				var dx = Math.pow(p.x - t.x, 2);
+				var dy = Math.pow(p.y - t.y, 2);
+				var dist = Math.sqrt(dx + dy);
+				console.log("distance: ", dist);
+				if (t.canPlay && (dist !== 0)) {
+					treasureSound.volume = (r_end - dist) / (r_end - 1);
+					treasureSound.play();
+					console.log(treasureSound.volume);
+				}
+				if (dist == 0) {
+					footStep.pause();
+					clearSound.play();
+					alert("Clear!");
+					r_end += 2;
+					c_end += 2;
+					createStage();
+					p.hidePlayer();
+					p = new Player();
+					p.dispPlayer();
+					t.hideTreasure();
+					t = new Treasure();
+					t.dispTreasure();
+				}
+			}
+
+
+			// 座標取得処理
+			function getY(event) {
+				//縦方向の座標を取得
+				return (event.originalEvent.touches[0].pageY);
+			}
+
+			function getX(event) {
+				//横方向の座標を取得
+				return (event.originalEvent.touches[0].pageX);
+			}
+
+			$(document).keydown(function (e) {	// walking
+				if (soundInitialize) {
+					var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+					let source = audioCtx.createMediaElementSource(treasureSound);
+					panNode = audioCtx.createStereoPanner();
+					source.connect(panNode);
+					panNode.connect(audioCtx.destination);
+					soundInitialize = false;
+				}
+				if (p.canWalk) {
+					p.canWalk = false;
+				} else {
+					return;
+				}
+				//console.log("key pressed", e);
+				p.hidePlayer();
+				switch (e.keyCode) {
+					case 37: // left
+						console.log("walk left");
+						if (p.x > 1) {
+							p.x--;
+							// play footstep from center
+							footStep.play();
+						} else {
+							console.log("hit wall");
+							wallSound.play();
+							p.x = 1;
+							p.canWalk = true;
+							break;
+						}
+						break;
+					case 39: // right
+						console.log("walk right");
+						if (p.x < c_end) {
+							p.x++;
+							// play footstep from center
+							footStep.play();
+						} else {
+							console.log("hit wall");
+							wallSound.play();
+							p.x = c_end;
+							p.canWalk = true;
+							break;
+						}
+						break;
+					case 38: // up
+						console.log("walk up");
+						if (p.y > 1) {
+							p.y--;
+							// play footstep from center
+							footStep.play();
+						} else {
+							console.log("hit wall");
+							wallSound.play();
+							p.y = 1;
+							p.canWalk = true;
+							break;
+						}
+						break;
+					case 40: // down
+						console.log("walk down");
+						if (p.y < r_end) {
+							p.y++;
+							// play footstep from center
+							footStep.play();
+						} else {
+							console.log("hit wall");
+							wallSound.play();
+							p.y = r_end;
+							p.canWalk = true;
+							break;
+						}
+						break;
+					case 86: // visible mode
+						if (visibleMode) {
+							visibleMode = false;
+							$('#screen').css("opacity", "0.1");
+						} else {
+							visibleMode = true;
+							$('#screen').css("opacity", "1.0");
+						}
+						p.canWalk = true;
+						break;
+					default: //
+						p.canWalk = true;
+						break;
+				}
+				if (visibleMode) { p.dispPlayer() };
+				// change the panning of treasure sound
+				var panx = (t.x - p.x) / c_end;
+				panNode.pan.value = panx;
+				console.log(panNode.pan.value);
+				// calculate distance
+				var dx = Math.pow(p.x - t.x, 2);
+				var dy = Math.pow(p.y - t.y, 2);
+				var dist = Math.sqrt(dx + dy);
+				console.log("distance: ", dist);
+				if (t.canPlay && (dist !== 0)) {
+					treasureSound.volume = (r_end - dist) / (r_end - 1);
+					treasureSound.play();
+					console.log(treasureSound.volume);
+				}
+				if (dist == 0) {
+					footStep.pause();
+					clearSound.play();
+					alert("Clear!");
+					r_end += 2;
+					c_end += 2;
+					createStage();
+					p.hidePlayer();
+					p = new Player();
+					p.dispPlayer();
+					t.hideTreasure();
+					t = new Treasure();
+					t.dispTreasure();
+				}
+			});
+
+			function createStage() {
+				$('#screen').children().remove();
+				var tableJQ = $('<table id="map">');
+				for (var r = 1; r <= r_end; r++) {
+					var trJQ_r = $('<tr></tr>').appendTo(tableJQ);
+					for (var c = 1; c <= c_end; c++) {
+						//	$('<td class=' +r+c+ '>r=' + r + ':c=' + c + '</td>').appendTo(trJQ_r);
+						$('<td class=' + r + c + '></td>').appendTo(trJQ_r);
+					}
+				}
+				$('#screen').append(tableJQ);
+				return;
+			}
+		});
+		function Player() {
+			this.x = Math.round(c_end / 2);
+			this.y = Math.round(r_end / 2);
+			this.canWalk = true;
+			this.visible = true;
+			this.dispPlayer = function () {
+				var playerPosition = "." + this.y.toString() + this.x.toString();
+				console.log("player position: ", playerPosition);
+				$(playerPosition).css('background-image', 'url("charaAnime.gif")');
+				$(playerPosition).css('background-position', 'center');
+				$(playerPosition).css('background-repeat', 'no-repeat');
+				$(playerPosition).css('background-size', 'contain');
+			}
+			this.hidePlayer = function () {
+				var playerPosition = "." + this.y.toString() + this.x.toString();
+				$(playerPosition).css('background-image', 'none');
+			}
+		}
+		function Treasure() {
+			this.x = Math.round(Math.random() * (c_end - 1)) + 1;
+			this.y = Math.round(Math.random() * (r_end - 1)) + 1;
+			this.canPlay = true;
+			this.visible = true;
+			this.dispTreasure = function () {
+				var treasurePosition = "." + this.y.toString() + this.x.toString();
+				console.log("treasure position: ", treasurePosition);
+				$(treasurePosition).css('background-image', 'url("AndIcon512CTv2.png")');
+				$(treasurePosition).css('background-position', 'center');
+				$(treasurePosition).css('background-repeat', 'no-repeat');
+				$(treasurePosition).css('background-size', 'contain');
+			}
+			this.hideTreasure = function () {
+				var treasurePosition = "." + this.y.toString() + this.x.toString();
+				$(treasurePosition).css('background-image', 'none');
+			}
+		}
+	</script>
+</body>
+
+</html>

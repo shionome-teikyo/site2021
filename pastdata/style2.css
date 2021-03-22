@@ -1,0 +1,207 @@
+/* common */
+.headerMenu {
+
+}
+.pageBody {
+
+}
+
+.pageBodyMain {
+
+}
+
+.pageBodySub {
+
+}
+
+.pageTop {
+
+}
+
+.copyright {
+	text-align : center;
+}
+
+a {
+	text-decoration: underline;
+}
+
+/* End of common */
+
+/* index.html */
+/* End of index.html */
+
+/* introduction.html */
+#introduction {
+    font-size: 100%;
+}
+#introduction li {
+    list-style-type: none;
+    padding-left: 60px;
+	margin-bottom: 15px;
+}
+#introduction strong {
+    font-weight: 600;
+}
+#OB ul li:nth-child(1){background: url(../img/002slackIcon.png)  no-repeat;}
+#OB ul li:nth-child(2){background: url(../img/003slackIcon.png)  no-repeat;}
+#OB ul li:nth-child(3){background: url(../img/004slackIcon.png)  no-repeat;}
+#OB ul li:nth-child(4){background: url(../img/005slackIcon.png)  no-repeat;}
+#students_4 ul li:nth-child(1){background: url(../img/006slackIcon.png)  no-repeat;}
+#students_4 ul li:nth-child(2){background: url(../img/007slackIcon.png)  no-repeat;}
+#students_4 ul li:nth-child(3){background: url(../img/008slackIcon.png)  no-repeat;}
+#students_4 ul li:nth-child(4){background: url(../img/009slackIcon.png)  no-repeat;}
+#students_4 ul li:nth-child(5){background: url(../img/010slackIcon.png)  no-repeat;}
+#students_3 ul li:nth-child(1){background: url(../img/011slackIcon.png)  no-repeat;}
+#students_3 ul li:nth-child(2){background: url(../img/012slackIcon.png)  no-repeat;}
+#students_3 ul li:nth-child(3){background: url(../img/013slackIcon.png)  no-repeat;}
+#students_3 ul li:nth-child(4){background: url(../img/014slackIcon.png)  no-repeat;}
+#sensei ul li:nth-child(1){background: url(../img/001slackIcon.png)  no-repeat;}
+
+#introduction li:last-child {
+	margin-bottom: 50px;
+}
+#introduction #OB li:last-child {
+	margin-bottom: 25px;
+}
+/* End of introduction.html */
+
+/* seniorproject.html */
+#seniorproject {
+    font-size: 90%;
+}
+#seniorproject li {
+    margin-bottom:15px;
+}
+#seniorproject strong {
+    font-weight: 600;
+}
+/* End of seniorproject.html */
+
+/* publish.html */
+#publish {
+    font-size: 100%;
+}
+
+#publish li {
+    margin-bottom: 15px;
+}
+
+#publish strong {
+    font-weight: 600;
+}
+
+/* End of publish.html */
+
+/* teacher.html */
+.article{
+	margin-left: 20px;
+	padding-right:20px;
+}
+.article .article_list h1{
+	font-size : 30px;
+	border-left : solid 10px #AD5C00;
+	padding-left : 10px;
+}
+.article .article_list img{
+	height : 150px;
+	margin-left : 25px;
+}
+.article .article_list h2{
+	font-size : 25px;
+	margin-left : 0;
+	border-left : solid 7px #AD5C00;
+	padding-left : 10px;
+}
+.article .article_list ul {
+	padding-left : 25px;
+	//list-style: none;
+}
+
+.article .article_list p {
+	margin : 18px;
+}
+.article .article_list a {
+	text-decoration : underline;
+	color : #000;
+	margin-right: 24px;
+}
+.article .article_list a:hover{
+	opacity: 0.5;
+}
+.link {
+	text-align : right;
+	margin-right: 20px;
+}
+/* End of teacher.html */
+
+
+/* End of teacher.html */
+
+/* playground.html */
+#playground {
+    font-size: 80%;
+}
+#playground section {
+    margin-bottom: 35px;
+}
+#playground section:last-child {
+    margin-bottom: 15px;
+}
+#playground h2, h3 {
+    margin-bottom: 6px;
+	border-left : solid 6px;
+	padding-left : 10px;
+}
+#playground p {
+    margin-top: 0;
+}
+/* End of playground.html */
+
+/* recruit.html */
+
+/* End of recruit.html */
+
+/* link.html */
+.links li:nth-child(odd){
+	font-weight:bold;
+}
+.links li:nth-child(even){
+	list-style: none;
+	padding-bottom: 10px;
+}
+/* End of link.html */
+
+/* laboratory.html */
+#sketch #sketchImg{
+
+}
+#sketch #sketchImg Img{
+	width: 689px;
+	height: 310px;
+	margin : 0;
+	padding :0;
+
+}
+
+#sketchSentence{
+	margin-left : 50px;
+}
+#sketchSentence p{
+	margin :0px;
+	padding :10px 0px 0px 0px;
+}
+#sketchSentenceLeft{
+	//float:left;
+}
+#sketchSentenceRight{
+	//float : right;
+	//margin-right : 30px;
+}
+#lastp{
+	padding-top : 100px;
+}
+/* End of laboratory.html */
+
+/*  */
+/* End of .html */

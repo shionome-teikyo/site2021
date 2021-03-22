@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<title>Mandal Art | 実験室 | 塩野目研究室</title>
+	<style>
+		body {
+			margin: 15px auto;
+			width: 500px;
+			overflow: hidden;
+		}
+
+		p {
+			font-size: 80%;
+			margin: 5px 0;
+			padding: 0 5px;
+			overflow: hidden;
+		}
+
+		.tab {
+			border: 1px solid #EEEEEE;
+			width: 165px;
+			float: left;
+			-webkit-transition: all 0.2s linear;
+			-moz-transition: all 0.2s linear;
+			-o-transition: all 0.2s linear;
+			transition: all 0.2s linear;
+		}
+
+		.tabfocus {
+			border: 1px solid #CCCCCC;
+			-webkit-transform: scale(1.2);
+			-moz-transform: scale(1.2);
+			-o-transform: scale(1.2);
+			transform: scale(1.2);
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+		}
+
+		table td {
+			width: 50px;
+			height: 50px;
+			text-align: center;
+			border: 1px solid #EEEEEE;
+		}
+
+		textarea {
+			font-size: 9px;
+			margin: auto;
+			padding: auto;
+			text-align: center;
+			border: 1px solid #CCCCCC;
+			vertical-align: top;
+			overflow: hidden;
+			resize: none;
+			width: 95%;
+			height: 95%;
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+		}
+
+		#tab5 {
+			border: 1px solid #999999;
+		}
+
+		#w55 {
+			border: 1px solid #AAAAAA;
+		}
+	</style>
+</head>
+
+<body>
+	<p>First of all, fill the center box. Then, fill the boxes around it.</p>
+	<table id="tab1" class="tab">
+		<tr>
+			<td><textarea id="w11" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w12" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w13" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w14" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea tabindex="-1" readonly id="w15" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w16" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w17" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w18" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w19" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+	</table>
+	<table id="tab2" class="tab">
+		<tr>
+			<td><textarea id="w21" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w22" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w23" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w24" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea tabindex="-1" readonly id="w25" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w26" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w27" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w28" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w29" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+	</table>
+	<table id="tab3" class="tab">
+		<tr>
+			<td><textarea id="w31" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w32" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w33" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w34" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea tabindex="-1" readonly id="w35" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w36" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w37" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w38" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w39" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+	</table>
+	<table id="tab4" class="tab">
+		<tr>
+			<td><textarea id="w41" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w42" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w43" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w44" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea tabindex="-1" readonly id="w45" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w46" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w47" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w48" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w49" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+	</table>
+	<table id="tab5" class="tab">
+		<tr>
+			<td><textarea id="w51" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w52" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w53" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w54" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w55" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w56" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w57" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w58" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w59" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+	</table>
+	<table id="tab6" class="tab">
+		<tr>
+			<td><textarea id="w61" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w62" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w63" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w64" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea tabindex="-1" readonly id="w65" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w66" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w67" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w68" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w69" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+	</table>
+	<table id="tab7" class="tab">
+		<tr>
+			<td><textarea id="w71" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w72" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w73" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w74" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea tabindex="-1" readonly id="w75" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w76" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w77" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w78" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w79" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+	</table>
+	<table id="tab8" class="tab">
+		<tr>
+			<td><textarea id="w81" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w82" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w83" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w84" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea tabindex="-1" readonly id="w85" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w86" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w87" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w88" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w89" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+	</table>
+	<table id="tab9" class="tab">
+		<tr>
+			<td><textarea id="w91" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w92" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w93" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w94" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea tabindex="-1" readonly id="w95" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w96" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+		<tr>
+			<td><textarea id="w97" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w98" class="tar" rows="3" cols="5"></textarea></td>
+			<td><textarea id="w99" class="tar" rows="3" cols="5"></textarea></td>
+		</tr>
+	</table>
+	<!--p style="clear:both;">Number of Ideas: <span id="noi"></span></p>
+<p>Idea list:</p>
+<ul id="ideas"></ul -->
+	<script>
+		$(function () {
+			$('.tab').focusin(function (e) {
+				$(this).addClass('tabfocus');
+				for (var i = 1; i <= 9; i++) {
+					$('#w' + i + '5').val($('#w5' + i).val());
+				}
+				var noi = 0;
+				for (var i = 1; i <= 9; i++) {
+					for (var j = 1; j <= 9; j++) {
+						if ($("#w" + i + j).val() != "") {
+							noi++
+						}
+					}
+				}
+				if (noi == 81) {
+					noi = "completed!";
+				}
+				$('#noi').text(noi);
+			});
+			$('.tab').focusout(function (e) {
+				$(this).removeClass('tabfocus');
+			});
+		});
+	</script>
+</body>
+
+</html>

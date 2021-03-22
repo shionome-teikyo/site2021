@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>No racco No life | 実験室 | 塩野目研究室</title>
+<style>
+</style>
+</head>
+<body>
+<img id="frakko" src="fRakkoR.png">
+<img id="crakko" src="cRakkoL.png">
+<img id="mrakko" src="mRakkoL.png">
+<audio src="brick1.mp3" type="audio/mpeg"></audio>
+<button id="btn" data-playing="false" role="switch" aria-checked="false">
+	<span>Play/Pause</span>
+</button>
+<input type="range" id="panner" min="-1" max="1" value="0" step="0.01">
+
+<script>
+// select our play button
+const playButton = document.querySelector('button');
+	const audioContext = new AudioContext();
+	const audioElement = document.querySelector("audio");
+	const track = audioContext.createMediaElementSource(audioElement);
+	track.connect(audioContext.destination);
+	
+	const gainNode = audioContext.createGain();
+
+	const pannerOptions = { pan: 0 };
+	const panner = new StereoPannerNode(audioContext, pannerOptions);
+	const pannerControl = document.querySelector('#panner');
+	
+	pannerControl.addEventListener('input', function() {
+		panner.pan.value = this.value;
+	}, false);	
+	track.connect(gainNode).connect(panner).connect(audioContext.destination);
+
+playButton.addEventListener('click', function() {
+	console.log("rakko started");
+	var konkon = window.setInterval(function(){
+		var btn = document.getElementById("btn");
+		// check if context is in suspended state (autoplay policy)
+		if (audioContext.state === 'suspended') {
+			audioContext.resume();
+		}
+		// play or pause track depending on state
+		if (btn.dataset.playing === 'false') {
+			audioElement.play();
+			btn.dataset.playing = 'true';
+		} else if (btn.dataset.playing === 'true') {
+			audioElement.pause();
+			btn.dataset.playing = 'false';
+		}
+	}, 300);
+	}, false);
+
+audioElement.addEventListener('ended', () => {
+	playButton.dataset.playing = 'false';
+}, false);
+
+
+</script>
+</body>
+</html>

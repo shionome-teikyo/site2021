@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<meta charset="utf-8">
+	<title>little love birds | 実験室 | 塩野目研究室</title>
+	<style>
+		img {
+			margin: 0;
+			transition-duration: 0.5s;
+		}
+
+		img:hover {
+			transform: scale(2.0, 2.0);
+			transition: 0.5s all;
+		}
+	</style>
+</head>
+
+<body>
+	<script>
+		$(function () {
+			var num = 272;
+			for (var i = 1; i < num; i++) {
+				var filename = "bird";
+				if (i < 10) {
+					filename += "0000" + i + ".jpg";
+				} else if (i < 100) {
+					filename += "000" + i + ".jpg";
+				} else if (i < 1000) {
+					filename += "00" + i + ".jpg";
+				} else if (i < 10000) {
+					filename += "0" + i + ".jpg";
+				}
+				$("body").append('<img class="bird">');
+				$("img:last-child").attr("src", filename);
+				$("img:last-child").attr("height", "80px");
+			}
+			$("body").append('<footer class="copyright"></footer>');
+			$("footer").append("<p>&copy;Shionome Lab. Teikyo University</p>");
+		});
+	</script>
+
+</body>
+
+</html>

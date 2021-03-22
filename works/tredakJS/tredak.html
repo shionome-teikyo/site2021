@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+	<title>†Treasure in the Dark† on the Web | 実験室 | 塩野目研究室</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="jquery-3.5.1.min.js"></script>
+	<script src="hammer.min.js"></script>
+	<script src="jquery.hammer.js"></script>
+	<script src="tredak.js"></script>
+</head>
+
+<body>
+	<h1>†Treasure in the Dark† on the Web</h1>
+	<p>use cursor(arrow) keys to move character.<br>
+		push "v" to change visible mode.</p>
+	<div id="screen"></div>
+	<audio id="treasureSound" src="twinkle3.mp3"></audio>
+	<script>
+		var r_end = 9;  // 行
+		var c_end = 9;  // 列数
+		var footStep = new Audio('footStep.mp3');
+		var wallSound = new Audio('hitWall.mp3');
+		var clearSound = new Audio('correctSound.mp3');
+		var treasureSound = document.querySelector('#treasureSound');
+		var soundInitialize = true;
+		var visibleMode = true;
+		$(function () {
+			createStage();
+			var p = new Player();
+			p.dispPlayer();
+			footStep.addEventListener("ended", () => {
+				footStep.currentTime = 0;
+				p.canWalk = true;
+			});
+			treasureSound.addEventListener("ended", () => {
+				treasureSound.currentTime = 0;
+				t.canPlay = true;
+			});
+			var t = new Treasure();
+			if (visibleMode) { t.dispTreasure() };
+
+			// Smartphone control
+			var elm = document.getElementById("map");
+			var ham = new Hammer(elm);
+			ham.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+			ham.on("swipe", function () {
+				if (soundInitialize) {
+					var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+					let source = audioCtx.createMediaElementSource(treasureSound);
+					panNode = audioCtx.createStereoPanner();
+					source.connect(panNode);
+					panNode.connect(audioCtx.destination);
+					soundInitialize = false;
+				}
+			});
+			ham.on("swipeleft", function () {
+				if (soundInitialize) {
+					var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+					let source = audioCtx.createMediaElementSource(treasureSound);
+					panNode = audioCtx.createStereoPanner();
+					source.connect(panNode);
+					panNode.connect(audioCtx.destination);
+					soundInitialize = false;
+				}
+				console.log("swipe left by hammer");
+				console.log("walk left");
+				p.hamWalk = true;
+				p.hidePlayer();
+				if (p.x > 1) {
+					p.hidePlayer();
+					p.x--;
+					// play footstep from center
+					footStep.play();
+					playerMove(p, t, panNode);
+				} else {
+					console.log("hit wall");
+					wallSound.play();
+					p.x = 1;
+					p.canWalk = true;
+				}
+			});
+			ham.on("swiperight", function () {
+				if (soundInitialize) {
+					var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+					let source = audioCtx.createMediaElementSource(treasureSound);
+					panNode = audioCtx.createStereoPanner();
+					source.connect(panNode);
+					panNode.connect(audioCtx.destination);
+					soundInitialize = false;
+				}
+				console.log("swipe right by hammer");
+				console.log("walk right");
+				p.hamWalk = true;
+				if (p.x < c_end) {
+					p.hidePlayer();
+					p.x++;
+					// play footstep from center
+					footStep.play();
+					playerMove(p, t, panNode);
+				} else {
+					console.log("hit wall");
+					wallSound.play();
+					p.x = c_end;
+					p.canWalk = true;
+					;
+				}
+			});
+			ham.on("swipeup", function () {
+				if (soundInitialize) {
+					var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+					let source = audioCtx.createMediaElementSource(treasureSound);
+					panNode = audioCtx.createStereoPanner();
+					source.connect(panNode);
+					panNode.connect(audioCtx.destination);
+					soundInitialize = false;
+				}
+				console.log("swipe up by hammer");
+				console.log("walk up");
+				p.hamWalk = true;
+				if (p.y > 1) {
+					p.hidePlayer();
+					p.y--;
+					// play footstep from center
+					footStep.play();
+					playerMove(p, t, panNode);
+				} else {
+					console.log("hit wall");
+					wallSound.play();
+					p.y = 1;
+					p.canWalk = true;
+				}
+			});
+			ham.on("swipedown", function () {
+				if (soundInitialize) {
+					var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+					let source = audioCtx.createMediaElementSource(treasureSound);
+					panNode = audioCtx.createStereoPanner();
+					source.connect(panNode);
+					panNode.connect(audioCtx.destination);
+					soundInitialize = false;
+				}
+				console.log("swipe down by hammer");
+				console.log("walk down");
+				p.hamWalk = true;
+				if (p.y < r_end) {
+					p.hidePlayer();
+					p.y++;
+					// play footstep from center
+					footStep.play();
+					playerMove(p, t, panNode);
+				} else {
+					console.log("hit wall");
+					wallSound.play();
+					p.y = r_end;
+					p.canWalk = true;
+				}
+			});
+
+			// Keyboard Control
+			$(document).keydown(function (e) {	// walking
+				if (soundInitialize) {
+					var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+					let source = audioCtx.createMediaElementSource(treasureSound);
+					panNode = audioCtx.createStereoPanner();
+					source.connect(panNode);
+					panNode.connect(audioCtx.destination);
+					soundInitialize = false;
+				}
+				if (p.canWalk) {
+					p.canWalk = false;
+				} else {
+					return;
+				}
+				//console.log("key pressed", e);
+				p.hidePlayer();
+				switch (e.keyCode) {
+					case 37: // left
+						console.log("walk left");
+						if (p.x > 1) {
+							p.x--;
+							// play footstep from center
+							footStep.play();
+						} else {
+							console.log("hit wall");
+							wallSound.play();
+							p.x = 1;
+							p.canWalk = true;
+							break;
+						}
+						break;
+					case 39: // right
+						console.log("walk right");
+						if (p.x < c_end) {
+							p.x++;
+							// play footstep from center
+							footStep.play();
+						} else {
+							console.log("hit wall");
+							wallSound.play();
+							p.x = c_end;
+							p.canWalk = true;
+							break;
+						}
+						break;
+					case 38: // up
+						console.log("walk up");
+						if (p.y > 1) {
+							p.y--;
+							// play footstep from center
+							footStep.play();
+						} else {
+							console.log("hit wall");
+							wallSound.play();
+							p.y = 1;
+							p.canWalk = true;
+							break;
+						}
+						break;
+					case 40: // down
+						console.log("walk down");
+						if (p.y < r_end) {
+							p.y++;
+							// play footstep from center
+							footStep.play();
+						} else {
+							console.log("hit wall");
+							wallSound.play();
+							p.y = r_end;
+							p.canWalk = true;
+							break;
+						}
+						break;
+					case 86: // visible mode
+						if (visibleMode) {
+							visibleMode = false;
+							$('#screen').css("opacity", "0.1");
+						} else {
+							visibleMode = true;
+							$('#screen').css("opacity", "1.0");
+						}
+						p.canWalk = true;
+						break;
+					default: //
+						p.canWalk = true;
+						break;
+				}
+
+				if (visibleMode) { p.dispPlayer() };
+				// change the panning of treasure sound
+				var panx = (t.x - p.x) / c_end;
+				panNode.pan.value = panx;
+				console.log(panNode.pan.value);
+				// calculate distance
+				var dx = Math.pow(p.x - t.x, 2);
+				var dy = Math.pow(p.y - t.y, 2);
+				var dist = Math.sqrt(dx + dy);
+				console.log("distance: ", dist);
+				if (t.canPlay && (dist !== 0)) {
+					treasureSound.volume = (r_end - dist) / (r_end - 1);
+					treasureSound.play();
+					console.log(treasureSound.volume);
+				}
+				if (dist == 0) {
+					footStep.pause();
+					clearSound.play();
+					alert("Clear!");
+					r_end += 2;
+					c_end += 2;
+					createStage();
+					p.hidePlayer();
+					p = new Player();
+					p.dispPlayer();
+					t.hideTreasure();
+					t = new Treasure();
+					t.dispTreasure();
+				}
+			});
+
+			function createStage() {
+				$('#screen').children().remove();
+				var tableJQ = $('<table id="map">');
+				for (var r = 1; r <= r_end; r++) {
+					var trJQ_r = $('<tr></tr>').appendTo(tableJQ);
+					for (var c = 1; c <= c_end; c++) {
+						//	$('<td class=' +r+c+ '>r=' + r + ':c=' + c + '</td>').appendTo(trJQ_r);
+						$('<td class=' + r + c + '></td>').appendTo(trJQ_r);
+					}
+				}
+				$('#screen').append(tableJQ);
+				return;
+			}
+
+			function playerMove(p, t, panNode) {
+				if (visibleMode) { p.dispPlayer() };
+				// change the panning of treasure sound
+				var panx = (t.x - p.x) / c_end;
+				panNode.pan.value = panx;
+				console.log(panNode.pan.value);
+				// calculate distance
+				var dx = Math.pow(p.x - t.x, 2);
+				var dy = Math.pow(p.y - t.y, 2);
+				var dist = Math.sqrt(dx + dy);
+				console.log("distance: ", dist);
+				if (t.canPlay && (dist !== 0)) {
+					treasureSound.volume = (r_end - dist) / (r_end - 1);
+					treasureSound.play();
+					console.log(treasureSound.volume);
+				}
+				if (dist == 0) {
+					footStep.pause();
+					clearSound.play();
+					alert("Clear!");
+					r_end += 2;
+					c_end += 2;
+					createStage();
+					p.hidePlayer();
+					p = new Player();
+					p.dispPlayer();
+					t.hideTreasure();
+					t = new Treasure();
+					t.dispTreasure();
+				}
+			}
+		});
+		function Player() {
+			this.x = Math.round(c_end / 2);
+			this.y = Math.round(r_end / 2);
+			this.canWalk = true;
+			this.hamWalk = false;
+			this.visible = true;
+			this.dispPlayer = function () {
+				var playerPosition = "." + this.y.toString() + this.x.toString();
+				console.log("player position: ", playerPosition);
+				$(playerPosition).css('background-image', 'url("charaAnime.gif")');
+				$(playerPosition).css('background-position', 'center');
+				$(playerPosition).css('background-repeat', 'no-repeat');
+				$(playerPosition).css('background-size', 'contain');
+			}
+			this.hidePlayer = function () {
+				var playerPosition = "." + this.y.toString() + this.x.toString();
+				$(playerPosition).css('background-image', 'none');
+			}
+		}
+		function Treasure() {
+			this.x = Math.round(Math.random() * (c_end - 1)) + 1;
+			this.y = Math.round(Math.random() * (r_end - 1)) + 1;
+			this.canPlay = true;
+			this.visible = true;
+			this.dispTreasure = function () {
+				var treasurePosition = "." + this.y.toString() + this.x.toString();
+				console.log("treasure position: ", treasurePosition);
+				$(treasurePosition).css('background-image', 'url("AndIcon512CTv2.png")');
+				$(treasurePosition).css('background-position', 'center');
+				$(treasurePosition).css('background-repeat', 'no-repeat');
+				$(treasurePosition).css('background-size', 'contain');
+			}
+			this.hideTreasure = function () {
+				var treasurePosition = "." + this.y.toString() + this.x.toString();
+				$(treasurePosition).css('background-image', 'none');
+			}
+		}
+	</script>
+</body>
+
+</html>
